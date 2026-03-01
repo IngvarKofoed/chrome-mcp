@@ -72,6 +72,9 @@ export class WebSocketBridge {
 
     const id = uuidv4();
     const request: WebSocketRequest = { id, command, params };
+    const paramKeys = Object.keys(params);
+    const paramSummary = paramKeys.length > 0 ? ` (${paramKeys.join(", ")})` : "";
+    console.error(`[bridge] → ${command}${paramSummary} [${id.slice(0, 8)}…]`);
 
     return new Promise<unknown>((resolve, reject) => {
       const timer = setTimeout(() => {
@@ -99,8 +102,10 @@ export class WebSocketBridge {
     this.pendingRequests.delete(msg.id);
 
     if (msg.success) {
+      console.error(`[bridge] ← ${msg.id.slice(0, 8)}… ok`);
       pending.resolve(msg.data);
     } else {
+      console.error(`[bridge] ← ${msg.id.slice(0, 8)}… error: ${msg.error}`);
       pending.reject(new Error(msg.error ?? "Unknown error from extension"));
     }
   }
