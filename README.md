@@ -2,6 +2,17 @@
 
 Chrome MCP lets AI CLI tools (Claude Code, Codex CLI, etc.) browse the internet using your real Chrome session — with all your cookies, logins, and extensions intact.
 
+## Why?
+
+Existing browser automation options don't work well for AI CLI tools:
+
+- **Claude's built-in browser tool** only works in the web UI — it's not available when Claude is invoked via CLI or API.
+- **Playwright and similar automation frameworks** launch browsers in developer/automation mode, which many websites detect and block.
+
+Chrome MCP solves both problems by driving your normal Chrome browser directly. The AI browses as you — same session, same cookies, no automation flags.
+
+> **Warning:** This gives the AI access to your real Chrome profile — your cookies, saved logins, and active sessions. The AI can navigate to any site you're already logged into and interact with it on your behalf. Only use this with AI tools you trust, and review what the AI is doing in your browser.
+
 It consists of two components connected via WebSocket:
 
 ```
