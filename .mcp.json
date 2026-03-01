@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "chrome-mcp": {
-      "command": "node",
-      "args": ["/Users/ingvar/data/chrome-mcp/chrome-mcp-server/dist/index.js"]
+      "type": "http",
+      "url": "http://localhost:7864/mcp"
     }
   }
 }
