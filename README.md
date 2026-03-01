@@ -28,7 +28,7 @@ AI CLI  <--MCP/HTTP-->  chrome-mcp-server  <--WebSocket-->  Chrome extension
 
 ```bash
 # Clone the repo
-git clone https://github.com/anthropics/chrome-mcp.git
+git clone https://github.com/IngvarKofoed/chrome-mcp.git
 cd chrome-mcp
 
 # Build the MCP server
