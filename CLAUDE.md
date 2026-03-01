@@ -26,6 +26,28 @@ See `docs/ARCHITECTURE.md` for the full specification including all MCP tools, t
 
 **WebSocket protocol** uses JSON messages with `id`, `command`, `params` (requests) and `id`, `success`, `data`/`error` (responses).
 
-## Current State
+## Build & Run
 
-This is a greenfield project. The architecture is fully specified in `docs/ARCHITECTURE.md` but no source code has been implemented yet. The `chrome-mcp-server/` and `chrome-extension/` directories are empty and awaiting implementation.
+```bash
+# Server
+cd chrome-mcp-server && npm install && npm run build
+
+# Extension
+cd chrome-extension && npm install && npm run build
+# Then load chrome-extension/ as an unpacked extension in Chrome (manifest.json is at root, dist/ has the built JS)
+```
+
+**MCP configuration** (e.g. in Claude Code settings):
+```json
+{ "command": "node", "args": ["/path/to/chrome-mcp-server/dist/index.js"] }
+```
+
+The WebSocket port defaults to `7865` and can be overridden with the `CHROME_MCP_PORT` env var.
+
+## Project Structure
+
+- `chrome-mcp-server/src/index.ts` — MCP server entry point (StdioServerTransport + WebSocketBridge)
+- `chrome-mcp-server/src/websocket-bridge.ts` — WebSocket server, pending request tracking, 30s timeout
+- `chrome-mcp-server/src/tools/` — MCP tool registrations (navigation, tabs, page-content, interaction, page-query, screenshots)
+- `chrome-extension/src/background.ts` — Service worker: WebSocket client, command dispatch, Chrome API handlers
+- `chrome-extension/src/content.ts` — DOM functions injected on-demand via `chrome.scripting.executeScript`
